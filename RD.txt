@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<stdlib.h>
+char input[50];
+int ip = 0;
+void E();
+void EP();
+void T();
+void TP();
+void F();
+void error();
+void E(){
+    T();
+    EP();
+}
+void EP(){
+    if(input[ip] == '+'){
+        ip++;
+        T();
+        EP();
+    }
+}
+void T(){
+    F();
+    TP();
+}
+void TP(){
+    if(input[ip] == '*'){
+        ip++;
+        F();
+        TP();
+    }
+}
+void F(){
+    if(input[ip] == '('){
+        ip++;
+        E();
+        if(input[ip] ==')'){
+            ip++;
+        }
+        else
+        error();
+    }
+    else if(input[ip] == 'i'){
+        ip++;
+    }
+    else
+    error();
+}
+void error(){
+    printf("INVALID INPUT");
+    exit(0);
+}
+void main(){
+    printf("\nEnter the input with $ : ");
+    scanf("%s",input);
+    E();
+    if(input[ip] == '$')
+    printf("String is ACCEPTED");
+    else
+    printf("String is NOT ACCEPTED");
+}
