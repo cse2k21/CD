@@ -1,0 +1,149 @@
+#include <stdio.h>
+#include<stdlib.h>
+char input[20],stack[20];
+int ip=0,top=-1;
+void ipdisp();
+void disp();
+void push(char a);
+void pop();
+void push(char x)
+{
+    if (top>=20)
+    {
+        printf("\nStack is full ovrflow\n");
+        exit(0);
+    }
+    else
+    {
+        top++;
+        stack[top]=x;
+    }
+}
+void pop()
+{
+    if(top<0)
+    {
+        printf("\nstack is empty underflow");
+        exit(0);
+    }
+    else
+    {
+        top--;
+    }
+}
+void disp()
+{
+    for(int i =0;i<=top;i++)
+        printf("%c",stack[i]);
+}
+void ipdisp()
+{
+    for(int i =ip;input[i]!='\0';i++)
+        printf("%c",input[i]);
+} 
+int main()
+{
+    int flag=0;
+    printf("Enter the input ending with $\n");
+    scanf("%s",input);
+    push('$');
+    push('E');
+    printf("\nStack-contents            input data\n");
+    while (1)
+    {
+        disp();
+        printf("----------------");
+        ipdisp();
+        printf("\n");
+        if(stack[top]=='$'&& input[ip]=='$')
+        {
+            flag=-1;
+            printf("\nSuccesfully parsed");
+            break;
+        }
+        else if(stack[top]==input[ip])
+        {
+            ip++;
+            pop();
+        }
+        else if(stack[top]=='E')
+        {
+            if(input[ip]=='a'||input[ip]=='b')
+            {
+                pop();
+                push('A');
+                push('T');
+            }
+            else{
+                break;
+            }
+        }
+        else if(stack[top]=='A')
+        {
+             if(input[ip]=='+')
+            {
+                pop();
+                push('A');
+                push('T');
+                push('+');
+            }
+            else if(input[ip]=='$')
+            {
+                pop();
+            }
+            else{
+                break;
+            }      
+        }
+        else if(stack[top]=='T')
+        {
+            if(input[ip]=='a'||input[ip]=='b')
+            {
+                pop();
+                push('B');
+                push('F');
+            }
+            else{
+                break;
+            }
+        }
+        else if(stack[top]=='B'){
+            if(input[ip]=='a'||input[ip]=='b'){
+                pop();
+                push('B');
+                push('F');
+            }
+            else if(input[ip]=='+'||input[ip]=='$'){
+                pop();
+            }
+            else
+            break;
+        }
+        else if(stack[top]=='F'){
+            if(input[ip]=='a'){
+                pop();
+                push('D');
+                push('a');
+            }
+            else if(input[ip]=='b'){
+                pop();
+                push('D');
+                push('b');
+            }
+            else 
+            break;
+        }
+        else if(stack[top]=='D'){
+            if(input[ip]=='*'){
+                pop();
+                push('D');
+                push('*');
+            }
+            else if(input[ip]=='a'||input[ip]=='b'||input[ip]=='+'||input[ip]=='$'){
+                pop();
+            }
+            else
+            break;
+        }
+    }
+}
