@@ -1,10 +1,10 @@
-letter [a-zA-Z]
+[a-zA-Z]
 digit [0-9]
-aop [+-*/%]
+aop [-+*/%]
 rop <|<=|>|>=|==|!=
 lop &&|[||]{2}|!
 bop &|<<|>>|[|]
-idop [++]{2}||[--]{2}
+idop [++]{2}|[--]{2}
 %%
 auto|break|if|else|int|char {printf("reserved word");}
 {letter}({letter}|{digit})* {printf("identifier");}
@@ -16,6 +16,9 @@ auto|break|if|else|int|char {printf("reserved word");}
 {idop} {printf("incerement or decerement operator");}
 [=] {printf("assignment operator");}
 %%
+int yywrap(){
+    return 0;
+}
 int main(){
     yylex();
     return 0;
